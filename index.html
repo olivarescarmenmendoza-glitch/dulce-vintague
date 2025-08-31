@@ -457,6 +457,7 @@
           <div class="form-group">
             <label for="dolarBCV">Tasa del Dólar (BCV):</label>
             <input type="number" id="dolarBCV" name="dolarBCV" step="0.01" value="144.37" required>
+            <small>Actualizado automáticamente de dolarvzla.com</small>
           </div>
           <div class="form-group">
             <label for="size">1. Tamaño (Porciones)</label>
@@ -535,6 +536,22 @@
       const tabs = document.querySelectorAll('.tab-content');
       const confettiContainer = document.getElementById('confetti-container');
       const loadingOverlay = document.getElementById('loading-overlay');
+
+      // --- Update Dolar Rate ---
+      async function updateDolarRate() {
+        try {
+          const response = await fetch('https://api.dolarvzla.com/public/exchange-rate');
+          const data = await response.json();
+          if (data.USD) {
+            const dolarBCVInput = document.getElementById('dolarBCV');
+            dolarBCVInput.value = data.USD.price.toFixed(2);
+          }
+        } catch (error) {
+          console.error('Error fetching dollar rate:', error);
+        }
+      }
+
+      updateDolarRate();
 
       // --- Loading Animation --- 
       window.addEventListener('load', () => {
