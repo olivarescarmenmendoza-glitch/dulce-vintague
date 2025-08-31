@@ -542,9 +542,10 @@
         try {
           const response = await fetch('https://api.dolarvzla.com/public/exchange-rate');
           const data = await response.json();
-          if (data.USD) {
+          // The API structure changed, now we access data.current.usd
+          if (data.current && data.current.usd) {
             const dolarBCVInput = document.getElementById('dolarBCV');
-            dolarBCVInput.value = data.USD.price.toFixed(2);
+            dolarBCVInput.value = data.current.usd.toFixed(2);
           }
         } catch (error) {
           console.error('Error fetching dollar rate:', error);
